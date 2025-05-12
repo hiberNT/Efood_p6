@@ -32,6 +32,8 @@ export const Container2 = styled.div`
   filter: brightness(70%);
   position: relative;
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   }
 
   h2 {
