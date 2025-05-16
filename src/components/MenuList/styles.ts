@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 import { ButtonContainer } from '../Button/styles'
 
 export const List = styled.ul`
@@ -7,6 +7,15 @@ export const List = styled.ul`
   grid-template-columns: 1fr 1fr 1fr;
   column-gap: 24px;
   margin: 90px 0;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    grid-template-columns: 1fr 1fr;
+    justify-self: center;
+  }
+
+  @media (max-width: ${breakpoints.tablet}) {
+    grid-template-columns: 1fr;
+  }
 `
 export const Modal = styled.div`
   position: fixed;
@@ -44,6 +53,11 @@ export const Conteudo = styled.div`
   z-index: 1;
   margin-top: 108px;
   margin-left: 224px;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    width: 768px;
+    margin-left: 0;
+  }
 `
 export const Image = styled.img`
   width: 280px;
@@ -79,4 +93,8 @@ export const Description = styled.p`
   font-size: 14px;
   width: 656px;
   line-height: 22px;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    width: 100%;
+  }
 `

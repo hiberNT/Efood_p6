@@ -1,9 +1,9 @@
-import { infos } from '../../Pages/Home'
+import { Infos } from '../../Pages/Home'
 import Product from '../Product'
 import { Container, List } from './styles'
 
 export type Props = {
-  rest: infos[]
+  rest: Infos[]
 }
 
 const ProductList = ({ rest }: Props) => (

@@ -18,7 +18,7 @@ const Menu = ({ onClick, foto, nome, descricao }: Props) => (
       <Titulo>{nome}</Titulo>
       <p>{descricao}</p>
       <Button onClick={onClick} type="button" title="Adiconar">
-        Adicionar ao carrinho
+        Mais Detalhes
       </Button>
     </Container>
   </Card>

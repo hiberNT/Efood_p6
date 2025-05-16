@@ -10,23 +10,33 @@ import {
   Modal
 } from './styles'
 import fechar from '../../assets/images/close 1.png'
-import { infos } from '../../Pages/Home'
+import { Infos } from '../../Pages/Home'
 import { ButtonContainer } from '../Button/styles'
+import { useDispatch } from 'react-redux'
+import { open, add } from '../../store/reducers/cart'
 
 export type Props = {
-  Cardapios: infos['cardapio']
+  Cardapios: Infos['cardapio']
 }
 
-export const MenuList = ({ Cardapios }: Props) => {
+export const MenuList = ({ Cardapios }: Props): JSX.Element => {
+  const dispatch = useDispatch()
+  const [itemSelecionado, setItemSelecionado] = useState<Infos['cardapio'][0]>()
+  const [modalEstaAberto, setModalEstaAberto] = useState(false)
+
+  const openCart = () => {
+    if (itemSelecionado) {
+      dispatch(add({ ...itemSelecionado, quantity: 1 })) // Adiciona quantidade
+      dispatch(open())
+    }
+  }
+
   const getDescricao = (descricao: string) => {
     if (descricao.length > 200) {
       return descricao.slice(0, 100) + '...'
     }
     return descricao
   }
-
-  const [modalEstaAberto, setModalEstaAberto] = useState(false)
-  const [itemSelecionado, setItemSelecionado] = useState<infos['cardapio'][0]>()
 
   return (
     <>
@@ -64,7 +74,11 @@ export const MenuList = ({ Cardapios }: Props) => {
                 <br />
                 Serve: {itemSelecionado.porcao}
               </Description>
-              <ButtonContainer title="clique aqui" type="button">
+              <ButtonContainer
+                onClick={openCart}
+                title="clique aqui"
+                type="button"
+              >
                 Adicionar ao carrinho - R$ {itemSelecionado.preco}
               </ButtonContainer>
             </Section>
@@ -75,5 +89,3 @@ export const MenuList = ({ Cardapios }: Props) => {
     </>
   )
 }
-
-export default MenuList

@@ -1,11 +1,19 @@
 import { styled } from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 
 export const Container = styled.div`
   background-color: ${cores.rosaClaro};
   padding-top: 40px;
   height: 270px;
   text-align: center;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    width: 554px;
+  }
+
+  @media (max-width: ${breakpoints.desktop}) {
+    width: 768px;
+  }
 `
 export const ListaSociais = styled.ul`
   height: 24px;

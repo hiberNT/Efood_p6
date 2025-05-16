@@ -1,9 +1,9 @@
 import ProductList from '../../components/ProductList'
 import Header from '../../components/Header'
-import Rodape from '../../components/Rodape'
-import { useEffect, useState } from 'react'
+import Rodape from '../../components/Footer'
+import { useGetRestauranteQuery } from '../../services/api'
 
-export type infos = {
+export type Infos = {
   id: number
   titulo: string
   destacado: boolean
@@ -22,20 +22,18 @@ export type infos = {
 }
 
 const Home = () => {
-  const [restaurantes, setRestaurantes] = useState<infos[]>([])
+  const { data: restaurantes } = useGetRestauranteQuery()
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/efood/restaurantes')
-      .then((res) => res.json())
-      .then((res) => setRestaurantes(res))
-  }, [])
-  return (
-    <>
-      <Header />
-      <ProductList rest={restaurantes} />
-      <Rodape />
-    </>
-  )
+  if (restaurantes) {
+    return (
+      <>
+        <Header />
+        <ProductList rest={restaurantes} />
+        <Rodape />
+      </>
+    )
+  }
+  return <h4>Carregando...</h4>
 }
 
 export default Home

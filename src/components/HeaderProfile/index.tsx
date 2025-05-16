@@ -1,40 +1,52 @@
-import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Container, Logo, Aba, HEADERProfile, Container2 } from './styles'
+import {
+  Container,
+  Logo,
+  Aba,
+  HEADERProfile,
+  Container2,
+  AbaRestaurante
+} from './styles'
 import logo from '../../assets/images/logo.png'
 import Fundo from '../../assets/images/fundo.png'
-import { infos } from '../../Pages/Home'
+import { useDispatch } from 'react-redux'
+import { open } from '../../store/reducers/cart'
+import { useSelector } from 'react-redux'
+import { RootReducer } from '../../store'
+import { useGetCardapioQuery } from '../../services/api'
 
 const HeaderProfile = () => {
   const { id } = useParams()
-  const [dados, setDados] = useState<infos>()
+  const { items } = useSelector((state: RootReducer) => state.cart)
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    fetch(`https://fake-api-tau.vercel.app/api/efood/restaurantes/${id}`)
-      .then((res) => res.json())
-      .then((res) => setDados(res))
-  }, [id])
+  const openCart = () => {
+    dispatch(open())
+  }
 
-  if (!dados) return null
+  const { data: cardapio } = useGetCardapioQuery(id!)
 
-  return (
-    <>
-      <HEADERProfile style={{ backgroundImage: `url(${Fundo})` }}>
-        <Container>
-          <Aba to="/">Restaurantes</Aba>
-          <Logo src={logo} alt="efood logo" />
-          <Aba to="/">0 produto(s) no carrinho</Aba>
-        </Container>
-        <p>ID do restaurante: {id}</p>
-      </HEADERProfile>
+  if (cardapio) {
+    return (
+      <>
+        <HEADERProfile style={{ backgroundImage: `url(${Fundo})` }}>
+          <Container>
+            <AbaRestaurante to="/">Restaurantes</AbaRestaurante>
+            <Logo src={logo} alt="efood logo" />
+            <Aba onClick={openCart}>{items.length} produto(s) no carrinho</Aba>
+          </Container>
+          <p>ID do restaurante: {id}</p>
+        </HEADERProfile>
 
-      <Container2>
-        <div style={{ backgroundImage: `url(${dados.capa})` }} />
-        <h2>{dados.tipo}</h2>
-        <h1>{dados.titulo}</h1>
-      </Container2>
-    </>
-  )
+        <Container2>
+          <div style={{ backgroundImage: `url(${cardapio.capa})` }} />
+          <h2>{cardapio.tipo}</h2>
+          <h1>{cardapio.titulo}</h1>
+        </Container2>
+      </>
+    )
+  }
+  return <h4>Carregando.....</h4>
 }
 
 export default HeaderProfile

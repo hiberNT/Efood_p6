@@ -1,10 +1,19 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 
 export const Background = styled.div`
   height: 384px;
   text-align: center;
   width: 100%;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    height: 400px;
+    width: 554px;
+  }
+
+  @media (max-width: ${breakpoints.desktop}) {
+    width: 768px;
+  }
 `
 export const Logo = styled.img`
   height: 57px;
