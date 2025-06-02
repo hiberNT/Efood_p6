@@ -1,3 +1,4 @@
+import Loader from '../../Loader'
 import { Infos } from '../../Pages/Home'
 import Product from '../Product'
 import { Container, List } from './styles'

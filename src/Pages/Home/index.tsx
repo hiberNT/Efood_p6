@@ -23,7 +23,6 @@ export type Infos = {
 
 const Home = () => {
   const { data: restaurantes } = useGetRestauranteQuery()
-
   if (restaurantes) {
     return (
       <>

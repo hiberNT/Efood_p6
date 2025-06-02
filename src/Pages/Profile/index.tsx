@@ -4,6 +4,7 @@ import Rodape from '../../components/Footer'
 import { Cart } from '../../components/Cart'
 import { MenuList } from '../../components/MenuList'
 import { useGetCardapioQuery } from '../../services/api'
+import Checkout from '../Checkout'
 
 const Profile = () => {
   const { id } = useParams()

@@ -1,6 +1,7 @@
 import { Background, Logo, Titulo } from './styles'
 import Fundo from '../../assets/images/fundo.png'
 import logo from '../../assets/images/logo.png'
+import Loader from '../../Loader'
 
 const Header = () => (
   <Background style={{ backgroundImage: `url(${Fundo})` }}>
