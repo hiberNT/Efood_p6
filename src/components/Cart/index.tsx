@@ -8,19 +8,20 @@ import {
   Overlay,
   Produto,
   Sidebar,
-  Total
+  Total,
+  EmptyText
 } from './styles'
 
 import { RootReducer } from '../../store'
 import { close, remove } from '../../store/reducers/cart'
-import { Infos } from '../../Pages/Home'
 import Checkout from '../../Pages/Checkout'
+import { parseToBrl } from '../../utils'
 
 type Props = {
-  Infos?: Infos
+  infos?: Infos
 }
 
-export const Cart = ({ Infos }: Props) => {
+export const Cart = ({ infos }: Props) => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const [view, setView] = useState<'cart' | 'checkout'>('cart')
 
@@ -43,29 +44,36 @@ export const Cart = ({ Infos }: Props) => {
     <CartContainer className={isOpen ? 'is-open' : ''}>
       <Overlay onClick={closeCart} />
       <Sidebar>
-        {view === 'cart' ? (
-          <>
-            <ul>
-              {items.map((item) => (
-                <CartItem key={item.id}>
-                  <Produto src={item.foto} />
-                  <div>
-                    <h2>{item.nome}</h2>
-                    <p>R$ {item.preco}</p>
-                  </div>
-                  <button onClick={() => removeItem(item.id)} />
-                </CartItem>
-              ))}
-            </ul>
-            <Total>
-              Valor Total <span>R$ {getTotalPrice()}</span>
-            </Total>
-            <Button onClick={() => setView('checkout')}>
-              Continuar com a entrega
-            </Button>
-          </>
+        {items.length > 0 ? (
+          view === 'cart' ? (
+            <>
+              <ul>
+                {items.map((item) => (
+                  <CartItem key={item.id}>
+                    <Produto src={item.foto} />
+                    <div>
+                      <h2>{item.nome}</h2>
+                      <p>R$ {item.preco}</p>
+                    </div>
+                    <button onClick={() => removeItem(item.id)} />
+                  </CartItem>
+                ))}
+              </ul>
+              <Total>
+                Valor Total <span>R$ {parseToBrl(getTotalPrice())}</span>
+              </Total>
+              <Button onClick={() => setView('checkout')}>
+                Continuar com a entrega
+              </Button>
+            </>
+          ) : (
+            <Checkout onVoltar={() => setView('cart')} />
+          )
         ) : (
-          <Checkout onVoltar={() => setView('cart')} />
+          <EmptyText>
+            O carrinho está vazio, adicione pelo menos um produto pra continuar
+            com a compra
+          </EmptyText>
         )}
       </Sidebar>
     </CartContainer>

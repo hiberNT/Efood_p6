@@ -65,17 +65,19 @@ export const Container2 = styled.div`
     font-weight:100;
     position: absolute;
     margin-left: 170px;
+    top: 60%;
 
     @media (max-width: ${breakpoints.desktop}) {
-      top: 48%;
+      top: 84%;
     }
   }
 
   h1 {
     position: absolute;
     margin-left: 170px;
+    top: 34%;
 
     @media (max-width: ${breakpoints.desktop}) {
-      bottom: 68%;
+      top: 48%;
     }
 `

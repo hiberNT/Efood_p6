@@ -1,5 +1,6 @@
 import { useState } from 'react'
-import Menu from '../Menu'
+import { useDispatch } from 'react-redux'
+
 import {
   Conteudo,
   List,
@@ -9,10 +10,10 @@ import {
   Image,
   Modal
 } from './styles'
+
+import Menu from '../Menu'
 import fechar from '../../assets/images/close 1.png'
-import { Infos } from '../../Pages/Home'
 import { ButtonContainer } from '../Button/styles'
-import { useDispatch } from 'react-redux'
 import { open, add } from '../../store/reducers/cart'
 
 export type Props = {

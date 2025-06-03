@@ -34,6 +34,7 @@ export const Sidebar = styled.aside`
   width: 100%;
   z-index: 1;
   padding: 32px 8px 8px 8px;
+  overflow-y: auto;
 `
 
 export const CartItem = styled.li`
@@ -91,4 +92,10 @@ export const Button = styled.button`
   margin-top: 16px;
   align-itens: center;
   cursor: pointer;
+`
+export const EmptyText = styled.p`
+  font-size: 14px;
+  line-height: 22px;
+  color: ${cores.Branco};
+  text-align: center;
 `

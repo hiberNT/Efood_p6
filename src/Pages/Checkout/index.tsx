@@ -1,3 +1,10 @@
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
+import { Navigate } from 'react-router-dom'
+import InputMask from 'react-input-mask'
+
 import {
   Title,
   InputGroup,
@@ -7,15 +14,12 @@ import {
   InputCart,
   Description
 } from './styles'
+
 import { Overlay } from '../../components/Cart/styles'
-import { useEffect, useState } from 'react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
 import { usePurchaseMutation } from '../../services/api'
-import { useDispatch, useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
-import { close } from '../../store/reducers/cart'
-import { Navigate } from 'react-router-dom'
+import { close, clear } from '../../store/reducers/cart'
+import { parseToBrl } from '../../utils'
 
 type Props = {
   onVoltar?: () => void
@@ -25,17 +29,17 @@ const Checkout = ({ onVoltar }: Props) => {
   const [step, setStep] = useState<'entrega' | 'cartao' | 'confirmacao'>(
     'entrega'
   )
-  const [purchase, { data, isSuccess, error }] = usePurchaseMutation()
+  const [purchase, { data, isSuccess }] = usePurchaseMutation()
   const { items } = useSelector((state: RootReducer) => state.cart)
   const getTotalPrice = () => {
     return items.reduce((acumulador, valorAtual) => {
       return (acumulador += valorAtual.preco!)
     }, 0)
   }
-  const totalPrice = getTotalPrice()
   const dispatch = useDispatch()
   const closeCart = () => {
     dispatch(close())
+    dispatch(clear())
   }
   const form = useFormik({
     initialValues: {
@@ -181,25 +185,27 @@ const Checkout = ({ onVoltar }: Props) => {
               <InputAddress>
                 <div>
                   <label htmlFor="cep">CEP</label>
-                  <input
-                    type="number"
+                  <InputMask
+                    type="text"
                     name="cep"
                     id="cep"
                     value={form.values.cep}
                     onChange={form.handleChange}
                     onBlur={form.handleBlur}
+                    mask="99999.999"
                   />
                   <small>{checkInputAsError('cep', form.errors.cep)}</small>
                 </div>
                 <div>
                   <label htmlFor="numberAndress">Número</label>
-                  <input
-                    type="number"
+                  <InputMask
+                    type="text"
                     name="numberAndress"
                     id="numberAndress"
                     value={form.values.numberAndress}
                     onChange={form.handleChange}
                     onBlur={form.handleBlur}
+                    mask="999"
                   />
                   <small>
                     {checkInputAsError(
@@ -244,7 +250,9 @@ const Checkout = ({ onVoltar }: Props) => {
       )}
       {step === 'cartao' && (
         <>
-          <Title>Pagamento - Valor a pagar R$ {totalPrice}</Title>
+          <Title>
+            Pagamento - Valor a pagar R$ {parseToBrl(getTotalPrice())}
+          </Title>
           <InputGroup>
             <label htmlFor="cardOwner">Nome do cartão</label>
             <input
@@ -262,13 +270,14 @@ const Checkout = ({ onVoltar }: Props) => {
           <InputCart>
             <div>
               <label htmlFor="cardNumber">Número do cartão</label>
-              <input
-                type="number"
+              <InputMask
+                type="text"
                 name="cardNumber"
                 id="cardNumber"
                 value={form.values.cardNumber}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
+                mask="9999 9999 9999 9999"
               />
               <small>
                 {checkInputAsError('cardNumber', form.errors.cardNumber)}
@@ -276,13 +285,14 @@ const Checkout = ({ onVoltar }: Props) => {
             </div>
             <div>
               <label htmlFor="cardCode">CVV</label>
-              <input
-                type="number"
+              <InputMask
+                type="text"
                 name="cardCode"
                 id="cardCode"
                 value={form.values.cardCode}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
+                mask="999"
               />
               <small>
                 {checkInputAsError('cardCode', form.errors.cardCode)}
@@ -292,13 +302,14 @@ const Checkout = ({ onVoltar }: Props) => {
           <InputCart>
             <div>
               <label htmlFor="monthExpires">Mês de vencimento</label>
-              <input
-                type="number"
+              <InputMask
+                type="text"
                 name="monthExpires"
                 id="monthExpires"
                 value={form.values.monthExpires}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
+                mask="99"
               />
               <small>
                 {checkInputAsError('monthExpires', form.errors.cardCode)}
@@ -306,13 +317,14 @@ const Checkout = ({ onVoltar }: Props) => {
             </div>
             <div>
               <label htmlFor="yearExpires">Ano de Vencimento</label>
-              <input
-                type="number"
+              <InputMask
+                type="text"
                 name="yearExpires"
                 id="yearExpires"
                 value={form.values.yearExpires}
                 onChange={form.handleChange}
                 onBlur={form.handleBlur}
+                mask="99/99"
               />
               <small>
                 {checkInputAsError('yearExpires', form.errors.yearExpires)}

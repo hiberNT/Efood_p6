@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Infos } from '../../Pages/Home'
 import { CartItem } from '../../components/Cart/styles'
 
 type CartItem = Infos['cardapio'][0] & { quantity: number } //esse 0 é pra pegar a estrutura do cardapio que ta dentro de infos assim o cartItem cocnhece a estrutura que vai ser trabalho que é o cardapio id:number,foto:string...
@@ -34,9 +33,12 @@ const cartSlice = createSlice({
     },
     remove: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload)
+    },
+    clear: (state) => {
+      state.items = []
     }
   }
 })
 
-export const { open, close, add, remove } = cartSlice.actions
+export const { open, close, add, remove, clear } = cartSlice.actions
 export default cartSlice.reducer

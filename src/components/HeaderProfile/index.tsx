@@ -1,4 +1,7 @@
 import { useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+
+import { useGetCardapioQuery } from '../../services/api'
 import {
   Container,
   Logo,
@@ -7,13 +10,12 @@ import {
   Container2,
   AbaRestaurante
 } from './styles'
+
 import logo from '../../assets/images/logo.png'
 import Fundo from '../../assets/images/fundo.png'
-import { useDispatch } from 'react-redux'
 import { open } from '../../store/reducers/cart'
 import { useSelector } from 'react-redux'
 import { RootReducer } from '../../store'
-import { useGetCardapioQuery } from '../../services/api'
 
 const HeaderProfile = () => {
   const { id } = useParams()

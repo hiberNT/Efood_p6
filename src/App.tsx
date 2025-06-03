@@ -1,9 +1,9 @@
-import { GlobalCss } from './styles'
+import { Provider } from 'react-redux'
 import { BrowserRouter } from 'react-router-dom'
 
+import { GlobalCss } from './styles'
+
 import Rotas from './routes'
-import { Cart } from './components/Cart'
-import { Provider } from 'react-redux'
 import { store } from './store'
 
 function App() {
